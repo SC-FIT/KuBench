@@ -1,0 +1,100 @@
+{
+  "planner": {
+    "group": {
+      "name": "SCFIT",
+      "contract_signed": "2024-11-26T13:23:43.770722",
+      "contract_number": 12345,
+      "institute_name": "Supercomputing technologies research group",
+      "institute_address_name": "Bozetechova",
+      "institute_address_number": "2",
+      "institute_postal_code": "61266",
+      "province": null,
+      "city": "Brno",
+      "country": "Czech republic",
+      "vat": null,
+      "institute_phone": "111222333",
+      "institute_email": "nobody@fit.vutbr.cz",
+      "state": {
+        "label": "Active"
+      },
+      "priority": 0
+    },
+    "state": {
+      "label": "Active"
+    },
+    "name": "Planner",
+    "surname": "tester",
+    "login": "planner",
+    "passwd": "scrypt:32768:8:1$vguoc0b3r5WnFmHX$c13240311280510b1b18175241c1f7869d9d754472ac7015b03da9a9b7b4bfc96a983534ca96cdbfb413a12be72c37693da627876b5dfa5b7b485dbc1f917fcb",
+    "email": "planner@email",
+    "phone": "111222333",
+    "is_dsm_admin": false,
+    "is_group_admin": false,
+    "is_planner": true,
+    "is_support_tech": false,
+    "photo": null
+  },
+  "allocation": {
+    "name": "OPEN-27-69",
+    "start_date": "2024-11-26T13:23:43Z",
+    "expiry_date": "2023-10-24T23:59:59Z",
+    "state": {
+      "label": "Active"
+    },
+    "priority": 0,
+    "price": 5000,
+    "currency": {
+      "name": "czech crown",
+      "shortcut": "CZK"
+    }
+  },
+  "purchase": {
+    "group": {
+      "name": "SCFIT",
+      "contract_signed": "2024-11-26T13:23:43Z",
+      "contract_number": 12345,
+      "institute_name": "Supercomputing technologies research group",
+      "institute_address_name": "Bozetechova",
+      "institute_address_number": "2",
+      "institute_postal_code": "61266",
+      "province": null,
+      "city": "Brno",
+      "country": "Czech republic",
+      "vat": null,
+      "institute_phone": "111222333",
+      "institute_email": "nobody@fit.vutbr.cz",
+      "state": {
+        "label": "Active"
+      },
+      "priority": 0
+    },
+    "date": "2022-06-14T23:59:59Z",
+    "contract_number": "1234567",
+    "state": {
+      "label": "Active"
+    },
+    "name": "test",
+    "amount": 100,
+    "consumed": 23,
+    "price": 5000,
+    "currency_id": 1,
+    "start_date": "2022-06-24T23:59:59Z",
+    "expiry_date": "2032-06-24T23:59:59Z",
+    "unit_factor": 1
+  },
+  "status": {
+    "name": "NEW"
+  },
+  "date": "2024-11-26T13:23:46",
+  "progress": 0,
+  "base_folder_path": "",
+  "plan_file_name": "plan.h5",
+  "result_file_name": null,
+  "status_time_stamp": "2024-11-26T13:23:46Z",
+  "restarts_number": 0,
+  "max_restarts": 5,
+  "type_name": null,
+  "error_note": null,
+  "remote_cleaned": false,
+  "consumed": 0
+}

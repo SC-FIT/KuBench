@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="Sauer">
+        <createTable tableName="libraries">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sigla" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="address" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="2" author="Sauer">
+        <createTable tableName="authors">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birth_date" type="DATE"/>
+            <column name="death_date" type="DATE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="Sauer">
+        <createTable tableName="works">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="isbn" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre" type="VARCHAR(255)"/>
+            <column name="publisher" type="VARCHAR(255)"/>
+            <column name="year" type="INT"/>
+            <column name="pages" type="INT"/>
+            <column name="language" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="works"
+                                 baseColumnNames="author_id"
+                                 constraintName="fk_works_author"
+                                 referencedTableName="authors"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="4" author="Sauer">
+        <createTable tableName="library_works">
+            <column name="library_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="work_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="library_works" columnNames="library_id, work_id" constraintName="pk_library_works"/>
+        <addForeignKeyConstraint baseTableName="library_works"
+                                 baseColumnNames="library_id"
+                                 constraintName="fk_library_works_library"
+                                 referencedTableName="libraries"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="library_works"
+                                 baseColumnNames="work_id"
+                                 constraintName="fk_library_works_work"
+                                 referencedTableName="works"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    
+    <changeSet id="5" author="sauer">
+        <sqlFile path="db/testdb_localhost-2024_11_26_14_14_58-dump.sql" />
+    </changeSet>
+</databaseChangeLog>

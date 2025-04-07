@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-experiment
+  labels:
+    app: flask-experiment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-experiment
+  template:
+    metadata:
+      labels:
+        app: flask-experiment
+    spec:
+      containers:
+        - name: flask-experiment
+          image: flask-experiment:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "1"
+            limits:
+              memory: "512Mi"
+              cpu: "2"
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: experiment
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: flask-experiment-secret
+                  key: postgres-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flask-experiment-secret
+                  key: postgres-password

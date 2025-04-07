@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ktor-experiment
+spec:
+  type: LoadBalancer
+  selector:
+    app: ktor-experiment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30810

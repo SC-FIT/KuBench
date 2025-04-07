@@ -1,0 +1,13 @@
+# Vs Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Obsidian
+.obsidian/
+
+Experiments/gin/main
+Experiments/gin/.idea
+Experiments/dotnet/experiment/experiment/obj/
+Experiments/dotnet/experiment/experiment/bin/

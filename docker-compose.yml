@@ -1,0 +1,141 @@
+version: '3.8'
+
+services:
+
+  spring-boot-experiment:
+    container_name: spring-boot-experiment
+    build:
+      context: spring-boot
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+    volumes:
+      - .:/app
+    networks:
+      - experiments
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  gin-experiment:
+    container_name: gin-experiment
+    build:
+      context: gin/
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+    volumes:
+      - .:/app-gin
+    networks:
+      - experiments
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  ktor-experiment:
+    build:
+      context: ktor
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=experiment
+    networks:
+      - experiments
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  dotnet-experiment:
+    container_name: dotnet-experiment
+    build:
+        context: ./dotnet
+        dockerfile: Dockerfile
+    ports:
+      - "8083:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+    networks:
+      - experiments
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  flask-experiment:
+    container_name: flask-experiment
+    build:
+      context: flask
+      dockerfile: Dockerfile
+    ports:
+      - "8084:5000"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=experiment
+    networks:
+      - experiments
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  express-experiment:
+    container_name: express-experiment
+    build:
+      context: express/
+      dockerfile: Dockerfile
+    ports:
+      - "8085:3000"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=experiment
+    networks:
+      - experiments
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /data/postgres
+      POSTGRES_DB: experiment
+    volumes:
+      - postgres-data:/data/postgres
+    ports:
+      - "6543:5432"
+    networks:
+      - experiments
+    restart: unless-stopped
+
+networks:
+  experiments:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local

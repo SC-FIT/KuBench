@@ -1,0 +1,251 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "paths": {
+    "/test/file-upload": {
+      "post": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "testFileUpload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/test/random-sleep": {
+      "get": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "testRandomSleep",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/test/device": {
+      "get": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "testDevice",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/test/complex-select": {
+      "get": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "testComplexSelect",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Group": {
+        "required": [
+          "city",
+          "contractSigned",
+          "country",
+          "instituteAddressName",
+          "instituteEmail",
+          "institutePhone",
+          "institutePostalCode",
+          "name",
+          "priority",
+          "state"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "contractSigned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contractNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "instituteName": {
+            "type": "string"
+          },
+          "instituteAddressName": {
+            "type": "string"
+          },
+          "instituteAddressNumber": {
+            "type": "string"
+          },
+          "institutePostalCode": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "vat": {
+            "type": "string"
+          },
+          "institutePhone": {
+            "type": "string"
+          },
+          "instituteEmail": {
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/components/schemas/Usergroupstate"
+          },
+          "priority": {
+            "type": "number",
+            "format": "float"
+          },
+          "responsibleUser": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "email",
+          "group",
+          "isDsmAdmin",
+          "isGroupAdmin",
+          "isPlanner",
+          "isSupportTech",
+          "login",
+          "name",
+          "state",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "group": {
+            "$ref": "#/components/schemas/Group"
+          },
+          "state": {
+            "$ref": "#/components/schemas/Usergroupstate"
+          },
+          "name": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "passwd": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "isDsmAdmin": {
+            "type": "boolean"
+          },
+          "isGroupAdmin": {
+            "type": "boolean"
+          },
+          "isPlanner": {
+            "type": "boolean"
+          },
+          "isSupportTech": {
+            "type": "boolean"
+          },
+          "photo": {
+            "type": "string"
+          }
+        }
+      },
+      "Usergroupstate": {
+        "required": [
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
