@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-experiment
+  labels:
+    app: spring-boot-experiment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot-experiment
+  template:
+    metadata:
+      labels:
+        app: spring-boot-experiment
+    spec:
+      containers:
+        - name: spring-boot-experiment
+          image: spring-boot-experiment:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "1"
+            limits:
+              memory: "512Mi"
+              cpu: "2"
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: experiment
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: spring-boot-experiment-secret
+                  key: postgres-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spring-boot-experiment-secret
+                  key: postgres-password

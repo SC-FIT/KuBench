@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-experiment
+  labels:
+    app: dotnet-experiment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dotnet-experiment
+  template:
+    metadata:
+      labels:
+        app: dotnet-experiment
+    spec:
+      containers:
+        - name: dotnet-experiment
+          image: dotnet-experiment:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "1"
+            limits:
+              memory: "512Mi"
+              cpu: "2"
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: experiment
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: dotnet-experiment-secret
+                  key: postgres-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dotnet-experiment-secret
+                  key: postgres-password
