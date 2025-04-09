@@ -38,6 +38,10 @@ Before you begin, ensure you have the following tools installed:
    ```
 
 3. **Restore the Database**
+
+   With database running in the cluster, you can restore the database from the dump file. The dump file is located in the 
+`database` directory. For ease of use, a bash script is provided to restore the database. Script initialises the database
+to state with no data
    ```bash
    # This can be replaced by initialisation of your custom database
    chmod +x database/restore_db.sh  # (Optional) Set execute permissions
@@ -116,20 +120,43 @@ the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/quer
 
 ## 🧪 Performance Testing
 
-The project uses [K6](https://k6.io/) for performance testing. Test scripts are located in the `k6` folder.
+The project uses [K6](https://k6.io/) for performance testing. Test scripts are located in the `k6` folder. K6 script files are 
+meant to be run using bash scripts located in the `k6/scripts` directory. Those scripts define what tests are run, what
+APIs are tested (this is defined by ports of APIs), and how many virtual users are used for the tests.
 
-**Run all tests with 1000 virtual users:**
+All tests should be run from the `k6` directory.
+
+**Tests all scenarios and all APIs with 1000 virtual users:**
 
 ```bash
-cd k6
 ./scripts/test_script.sh 1000
 ```
-
 > ⚠️ **Note:** Complete test suite takes approximately 2 hours to finish.
 
-To test individual experiments, modify the `test_script.sh` file, line 3, to include only the desired ports.
+**Tests complex select with ramping up users**
 
-Test results are saved in the `k6/test-results` directory as HTML files.
+This test doesn't import data, it only tests the complex select API.
+
+```bash
+./scripts/ramp_up_test.sh
+```
+
+**Tests API break point**
+
+This test doesn't import data, it only tests the complex select API.
+
+```bash
+./scripts/break_point_test.sh
+```
+
+> ⚠️ **Note:** After this test some API could be broken so minikube restart is recommended.
+
+All test results are saved in the `k6/test-results` directory as HTML and csv files.
+
+**Test modify**
+
+To test individual experiments, modify the bash scripts files. K6 scripts to be run are defined in `K6_TEST_SCRIPTS`
+variable. To modify what APIs are tested, modify the `PORTS` variable. The ports are defined in the k8s manifests.
 
 ## 🔌 Service Ports
 
@@ -156,12 +183,13 @@ When using Minikube, services are exposed on the following ports:
 
 1. **Implement** the experiment in your chosen technology
 2. **Match the API** defined in `open-api-definition.json` for consistency
-3. **Expose metrics** for Prometheus monitoring (e.g.,
+3. **Expose metrics endpoint** for Prometheus to scrape (e.g.,
    use [Micrometer](https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus) for Spring Boot)
 4. **Dockerize** the project
-5. **Create K8s deployment files** (use existing files as templates)
+5. **Create K8s manifests** (use existing files as templates)
 6. **Add the service** to Prometheus configuration in `k8s-manifests/prometheus/prometheus-config.yml`
 7. **Update performance tests** in the K6 scripts with your service's NodePort
+8. **Monitor API** performance using Grafana or Prometheus. Add pane to Grafana dashboard for your service
 
 ## 📋 Example REST API framework employments
 
@@ -191,7 +219,8 @@ Experiments
 │   ├── device-test.js - Device scenario testing
 │   ├── import-test.js - Import scenario testing
 │   ├── load-test.js - Load testing for complex selects
-│   ├── sleep-test.js - Sleep scenario testing
+│   ├── ramp-up-test.js - Ramp up testing
+│   ├── sleep-test.js - Sleep testing
 │   ├── spike-test.js - Spike testing for complex selects
 │   └── test-data.zip - Test data for import tests
 ├── k8s-manifests - Kubernetes deployment files
